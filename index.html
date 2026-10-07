@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>It's Saturday — 單圖 Banner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+  <!-- 英文字體：Adobe Fonts「collier」 -->
+  <link rel="stylesheet" href="https://use.typekit.net/ezg8jxr.css">
+  <style>
+    :root {
+      /* ══════════ 顏色設定 ══════════ */
+      --bg: #d9cbbb;               /* 圖片載入前的底色 */
+      --text: #ffffff;             /* 文字顏色 */
+
+      /* ══════════ 字型設定（英文 collier、中日文思源黑體） ══════════ */
+      --font: "collier", 'Noto Sans TC', sans-serif;
+
+      /* ══════════ 文字大小（cqmin = 左圖寬、高較短的那一邊的 %，圖變大字就跟著變大） ══════════ */
+      --title-size: 12.5cqmin;     /* Aibo */
+      --kana-size: 2.6cqmin;       /* あいぼう */
+      --series-size: 3.3cqmin;     /* 寵物陪伴系列 */
+
+      /* ══════════ 版面設定（與「Gift for U and me」banner 一致） ══════════ */
+      --height-pc: 600px;          /* 電腦版高度 */
+      --height-tab: 740px;         /* 平板版高度 */
+      --ratio-m: 800 / 1250;       /* 手機版比例（統一尺寸 800×1250） */
+      --copy-width-pc: 50%;        /* 電腦版文字區寬度：50% = 文字在左半邊（原本位置）；100% = 文字在整張圖正中間 */
+      --focus-pc: center;          /* 電腦／平板圖片裁切重心：center、left、right、top、bottom */
+      --focus-m: center;           /* 手機圖片裁切重心 */
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      background: var(--bg);
+      overflow-x: hidden;
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== 外框：一張底圖鋪滿 ===== */
+    .banner {
+      display: grid;
+      grid-template-columns: 1fr;
+      aspect-ratio: var(--ratio-m);
+      width: 100%;
+      background: var(--bg);
+    }
+    .cell {
+      position: relative;
+      min-width: 0;
+      height: 100%;
+    }
+    .cell img {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: var(--focus-pc);
+      color: transparent;
+      background: var(--bg);
+    }
+
+    /* ===== 文字區：疊在底圖上（手機／平板佔滿整張圖） ===== */
+    .copy-area {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      container-type: size;          /* 讓文字依文字區大小自動縮放 */
+    }
+    .copy {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11cqmin 6cqmin 6cqmin;
+      color: var(--text);
+      text-align: center;
+    }
+
+    .title {
+      font-weight: 300;
+      font-size: 64px;                 /* 舊瀏覽器備用 */
+      font-size: var(--title-size);
+      line-height: 1;
+      letter-spacing: 0.01em;
+    }
+    .kana {
+      margin-top: 0.5em;
+      font-weight: 300;
+      font-size: var(--kana-size);
+      line-height: 1.4;
+      letter-spacing: 0.12em;
+    }
+    .series {
+      margin-top: 0.8em;
+      font-weight: 300;
+      font-size: var(--series-size);
+      line-height: 1.4;
+      letter-spacing: 0.32em;
+      text-indent: 0.32em;            /* 抵銷最後一字的字距，讓置中更準 */
+    }
+
+    /* ===== 手機（767px 以下）：文字放大 ===== */
+    @media (max-width: 767px) {
+      :root {
+        --title-size: 17cqmin;
+        --kana-size: 4cqmin;
+        --series-size: max(16px, 5cqmin);
+      }
+      .cell img {
+        object-position: var(--focus-m);
+      }
+    }
+
+    /* ===== 平板（768–1023px）：高度 740px ===== */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .banner {
+        aspect-ratio: auto;
+        height: var(--height-tab);
+      }
+    }
+
+    /* ===== 平板＋電腦（768px 以上）：文字在文字區上下左右置中 ===== */
+    @media (min-width: 768px) {
+      .copy {
+        justify-content: center;
+        padding: 6cqmin;
+      }
+    }
+
+    /* ===== 電腦（1024px 以上）：一張橫式底圖，高度 600px ===== */
+    @media (min-width: 1024px) {
+      .banner {
+        aspect-ratio: auto;
+        height: var(--height-pc);
+      }
+      .copy-area {
+        width: var(--copy-width-pc);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">
+
+    <div class="cell main">
+      <picture>
+        <!-- 手機版底圖（建議 800×1250 直式） -->
+        <source media="(max-width: 767px)" srcset="https://ik.imagekit.io/itssaturday/banner/20261007-banner-diffuser-m.jpg">
+        <!-- 電腦／平板底圖（建議 2400×1000 橫式，一張就好） -->
+        <img src="https://ik.imagekit.io/itssaturday/banner/20261007-banner-diffuser.jpg" alt="水泥香氛擴香瓶">
+      </picture>
+
+      <div class="copy-area">
+        <div class="copy">
+          <div class="head">
+            <p class="kana">不同形式的香氛體驗</p>
+            <h2 class="title">Reborn</h2>
+            <p class="series">It's Saturday
+            </br>原創手作水泥擴香瓶
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    /* 把內容的實際高度回報給 BVShop 頁面，讓框框高度自動剛好 */
+    (function () {
+      var last = 0;
+      function report() {
+        var h = document.querySelector(".banner").offsetHeight;
+        if (h && h !== last) {
+          last = h;
+          window.parent.postMessage({ ispBannerHeight: h, ispBannerId: "isp-single-banner" }, "*");
+        }
+      }
+      window.addEventListener("load", report);
+      window.addEventListener("resize", report);
+      Array.prototype.forEach.call(document.images, function (img) {
+        img.addEventListener("load", report);
+      });
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(report);
+      report();
+      setTimeout(report, 500);
+      setTimeout(report, 1500);
+    })();
+  </script>
+</body>
+</html>
